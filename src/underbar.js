@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -37,6 +38,14 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    var newArr= []
+    if(n=== undefined){
+      return array.pop();
+    }else if (n > array.length) {
+        return array;
+    } else {
+        return array.slice(array.length-n);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -45,6 +54,15 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    if(Array.isArray(collection)){
+      for(var ind = 0 ; ind < collection.length; ind++){
+        iterator (collection[ind], ind, collection);
+      }
+    }else {
+      for(var obj in collection){
+        iterator (collection[obj], obj, collection);
+      }
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -66,21 +84,55 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    if(Array.isArray(collection)){
+    var arr = [];
+    _.each(collection, function(items){
+      if(test(items)){
+        arr.push(items);
+      }
+    })
+      
+    return arr;;
+    }
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    if(Array.isArray(collection)){
+      var rej = [];
+      _.each(collection, function(items){
+        if(test(items) === false ){
+          rej.push(items);
+        }
+      })
+      return rej;
+    }
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+      var arr = [];
+      var sing 
+      _.each(array, function(items){
+        var sing = _.indexOf(arr, items);
+        if(sing === -1){
+          arr.push(items);
+        }
+      });
+      return arr
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var nArr = []
+    _.each(collection, function(items){
+      nArr.push(iterator(items))
+    })
+    return nArr;
+
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
