@@ -115,9 +115,21 @@
   _.uniq = function(array, isSorted, iterator) {
     var arr = [];
     var obj = {};
-    _.each(array, function(item) {
+    if(isSorted === true){
+      var arr2 = [];
+      _.each(array, function(item){
+        arr2.push(iterator(item))
+      })
+      _.each(arr2, function(item) {
+
+      obj[item] = array[_.indexOf(arr2 , item)];
+             });
+    }else{
+      _.each(array, function(item) {
+
       obj[item] = item;
-    });
+             });
+         }
     _.each(obj, function(prop) {
       arr.push(prop);
     });
